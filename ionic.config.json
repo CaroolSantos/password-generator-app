@@ -1,5 +1,10 @@
 {
   "name": "password-generator-app",
-  "integrations": {},
-  "type": "angular"
+  "type": "angular",
+  "proxy": {
+    "/api": {
+      "target": "http://localhost:8080",
+      "changeOrigin": true
+    }
+  }
 }

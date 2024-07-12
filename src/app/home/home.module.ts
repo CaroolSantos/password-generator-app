@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 import { HttpClient } from '@angular/common/http';
 import { HomePageRoutingModule } from './home-routing.module';
+import { PasswordService } from '../Services/password.service';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { HomePageRoutingModule } from './home-routing.module';
   ],
   declarations: [HomePage],
   providers:[
-    HttpClient
+    HttpClient,
+    PasswordService
   ]
 })
 export class HomePageModule {}
