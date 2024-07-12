@@ -1,6 +1,7 @@
 # Password Generator 
 
 Este projeto é uma API para geração de senhas, desenvolvida com .NET C# e integrada com um frontend Ionic.
+
 Link para o projeto da API: https://github.com/CaroolSantos/password-generator-api
 
 ## Descrição
