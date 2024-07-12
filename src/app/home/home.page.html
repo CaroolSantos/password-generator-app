@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Gerador de Senhas
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <p>
+    Selecione as opções abaixo para configurar sua senha e clique em "Gerar Senha".
+  </p>
+
+  <form class="style-form" [formGroup]="passwordForm" (ngSubmit)="generatePassword()">
+    <ion-row class="style-itens">
+      <ion-col class="ion-align-self-center col-label">
+        <ion-label>Comprimento da senha</ion-label>
+      </ion-col>
+      <ion-col class="ion-align-self-center">
+        <ion-input type="numeric" formControlName="length"></ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-item lines="none" class="style-itens">
+      <ion-label>Incluir letras maiúsculas</ion-label>
+      <ion-checkbox formControlName="includeUppercase"></ion-checkbox>
+    </ion-item>
+
+    <ion-item lines="none" class="style-itens">
+      <ion-label>Incluir letras minúsculas</ion-label>
+      <ion-checkbox formControlName="includeLowercase"></ion-checkbox>
+    </ion-item>
+
+    <ion-item lines="none" class="style-itens">
+      <ion-label>Incluir números</ion-label>
+      <ion-checkbox formControlName="includeNumbers"></ion-checkbox>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-label>Incluir caracteres especiais</ion-label>
+      <ion-checkbox formControlName="includeSpecial"></ion-checkbox>
+    </ion-item>
+    
+    <ion-button expand="full" type="submit">Gerar Senha</ion-button>
+  </form>
+
+
+  <ion-item *ngIf="generatedPassword">
+    <ion-label>Senha Gerada</ion-label>
+    <ion-input readonly [value]="generatedPassword"></ion-input>
+  </ion-item>
+  <ion-list>
+    <ion-item *ngFor="let password of passwordHistory">
+      {{ password }}
+    </ion-item>
+  </ion-list>
+</ion-content>
