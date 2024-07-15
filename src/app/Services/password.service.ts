@@ -6,18 +6,26 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PasswordService {
-  private apiUrl = 'https://localhost:7125/api/password';
+  private apiUrl = 'http://localhost:8080/api/passwords';
 
   constructor(private http: HttpClient) { }
 
-  generatePassword(length: number, includeUpperCase: boolean, includeLowercase: boolean, includeNumbers: boolean, includeSpecialCharacters: boolean): Observable<any> {
-    let params = new HttpParams()
-      .set('length', length.toString())
-      .set('includeUpperCase', includeUpperCase.toString())
-      .set('includeLowercase', includeLowercase.toString())
-      .set('includeNumbers', includeNumbers.toString())
-      .set('includeSpecialCharacters', includeSpecialCharacters.toString());
+  generatePassword(config:generatePasswordConfig): Observable<any> {
+    console.log(config);
 
-    return this.http.post(`${this.apiUrl}/generate`, {}, { params });
+    return this.http.post(`${this.apiUrl}/generate-password`, config);
   }
+
+  getPasswordHistory(){
+    return this.http.get(`${this.apiUrl}/password-history`);
+  }
+}
+
+
+export class generatePasswordConfig{
+  length: number;
+  includeUppercase: boolean;
+  includeLowercase: boolean;
+  includeNumbers: boolean;
+  includeSpecial: boolean;
 }
