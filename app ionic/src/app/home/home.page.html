@@ -60,15 +60,15 @@
 
 
   <ion-list>
-    <p>Histórico de senhas geradas.</p>
+    <p>Histórico de senhas geradas:</p>
 
     <ion-row class="label-row">
-      <ion-col size="4">Senha</ion-col>
-      <ion-col size="4">Data</ion-col>
+      <ion-col size="3">Senha</ion-col>
+      <ion-col size="3">Data</ion-col>
     </ion-row>
     <ion-row  *ngFor="let p of passwordHistory">
-      <ion-col size="4">{{p.password}}</ion-col>
-      <ion-col size="4">{{p.generatedAt | date:'dd/MM/yy HH:mm'}}</ion-col>
+      <ion-col size="3">{{p.password}}</ion-col>
+      <ion-col size="3">{{p.generatedAt | date:'dd/MM/yy HH:mm'}}</ion-col>
     </ion-row>
 
   </ion-list>
