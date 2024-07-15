@@ -1,77 +1,128 @@
-# Password Generator 
-
-Este projeto é uma API para geração de senhas, desenvolvida com .NET C# e integrada com um frontend Ionic.
-
-Link para o projeto da API: https://github.com/CaroolSantos/password-generator-api
+# Password Generator App
 
 ## Descrição
 
-O Password Generator API é uma aplicação backend que oferece uma API RESTful para gerar senhas personalizadas com base em parâmetros fornecidos pelo usuário. A API é construída utilizando .NET C# e está configurada para se conectar a um banco de dados SQL Server. Este projeto é complementado por um frontend desenvolvido em Ionic, que permite aos usuários configurar e gerar senhas através de uma interface amigável.
+O Password Generator App é uma aplicação para geração, armazenamento e atualização de senhas. O frontend é desenvolvido usando Ionic e o backend é implementado em Java com Spring Boot. A aplicação utiliza um banco de dados MySQL para armazenar as senhas geradas.
 
-## Requisitos do Sistema
+## Estrutura do Projeto
 
-- .NET SDK 7.0 ou superior
-- SQL Server
-- Node.js (para o frontend)
-- Ionic CLI (para o frontend)
+- **Frontend**: Ionic 5
+- **Backend**: Java 17 com Spring Boot 3.3.1
+- **Banco de Dados**: MySQL
 
-## Configuração do Ambiente
-  ### Clonar o Repositório
+## Configuração
 
-  1) Clone o repositório do backend:
+### Backend
+
+1. **Clone o Repositório**
+
+   ``
+   git clone https://github.com/CaroolSantos/password-generator-app.git
+   cd password-generator-app/backend
+  ``
+
+2. **Configurar o Banco de Dados**
+
++ Instale e configure o MySQL.
++ Crie um banco de dados:
+
   ```
-  git clone https://github.com/CaroolSantos/password-generator-api.git
-  cd password-generator-api
-  ```
+  CREATE DATABASE password_generator_db;
+  CREATE USER 'password_user'@'localhost' IDENTIFIED BY 'password';
+  GRANT ALL PRIVILEGES ON password_generator_db.* TO 'password_user'@'localhost';
+  FLUSH PRIVILEGES;
+   ```
 
-  2) Clone o repositório do frontend:
-  ```
-  git clone https://github.com/CaroolSantos/password-generator-app.git
-  cd password-generator-app
-  ```
-  
- ### Configurar o Backend
+3. **Configurar o Spring Boot**
 
-1) Navegue até o diretório do projeto backend:
-  ```
-  cd path/to/password-generator-api
+Atualize o arquivo src/main/resources/application.properties com as configurações do banco de dados:
+
 ```
-2) Configure a string de conexão com o banco de dados no arquivo appsettings.json:
+spring.datasource.url=jdbc:mysql://localhost:3306/password_generator_db
+spring.datasource.username=password_user
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+# JPA Configurations
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+```
+
+4. **Executar a Aplicação**
+   
+Compile e execute a aplicação Spring Boot:
+
+`
+mvn spring-boot:run
+`
+
+
+### FrontEnd
+
+1. **Instalar Dependências**
+
+Navegue para o diretório do frontend e instale as dependências:
+
+`
+cd ../frontend
+npm install
+`
+
+2. **Executar a Aplicação Ionic**
+
+Inicie o servidor de desenvolvimento:
+`
+ionic serve
+`
+
+
+### Endpoints da API
+
+Gerar Senha
++ URL: /api/passwords/generate-password
++ Método: POST
++ Descrição: Gera uma nova senha com os parâmetros especificados.
++ Corpo da Requisição:
+
+```
+ {
+  "length": 12,
+  "includeUppercase": true,
+  "includeLowercase": true,
+  "includeNumbers": true,
+  "includeSpecial": false
+}
+```
+
++ Resposta:
   ```
   {
-    "ConnectionStrings": {
-      "DefaultConnection": "Server=(localdb)\\mssqllocaldb;Database=PasswordGeneratorDb;Trusted_Connection=True;"
-    }
+  "id": 1,
+  "password": "generatedPassword",
+  "generatedAt": "2023-07-12T12:34:56.789Z"
   }
-```
-3) Restaure as dependências do projeto:
+
+
+Histórico de Senhas
++ URL: /api/passwords/password-history
++ Método: GET
++ Descrição: Retorna o histórico de senhas geradas, ordenadas por ID em ordem decrescente.
++ Resposta:
   ```
-  dotnet restore
-```
-4) Aplique as migrações do banco de dados:
-  ```bash
-  dotnet ef migrations add InitialCreate
-  dotnet ef database update
-```
+  [
+  {
+    "id": 2,
+    "password": "anotherPassword",
+    "generatedAt": "2023-07-13T12:34:56.789Z"
+  },
+  {
+    "id": 1,
+    "password": "generatedPassword",
+    "generatedAt": "2023-07-12T12:34:56.789Z"
+  }
+  ]
 
-
-### Configurar o Frontend
-
-1) Navegue até o diretório do projeto frontend.
-  
-2) Instale as dependências do projeto:
-```
-npm install
-```
-
-3) Configure o serviço HTTP para apontar para o backend. No arquivo src/app/services/password.service.ts, defina a URL da API:
-```
-private apiUrl = 'https://localhost:5001/api/password';
-```
-
-## Endpoints da API
-
-+ `POST /api/password/generate`: Gera uma nova senha com as configurações especificadas.
 
 ### Parâmetros de Query:
 
